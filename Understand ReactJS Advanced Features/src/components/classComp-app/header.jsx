@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import newsCategory from "../../news/index";
+import {newsCategory} from "../../news/index";
 
 class Header extends Component {
   state = {
@@ -10,10 +10,12 @@ class Header extends Component {
   handleChange = (e) => {
     this.setState({ searchTerm: e.target.value });
   };
-  handleKeyPress = () => {};
+  handleKeyPress = (e) => {
+    if(e.key === 'Enter') this.props.search(this.state.searchTerm)
+  };
 
   render() {
-    const { category } = this.props;
+    const { category, changeCategory } = this.props;
 
     return (
       <div className="my-4">
@@ -33,6 +35,7 @@ class Header extends Component {
             Object.keys(newsCategory).map((item) => (
               <button
                 key={newsCategory[item]}
+                onClick={() => changeCategory(newsCategory[item])}
                 className={`btn btn-sm  mr-2 mb-2 ${
                   category === newsCategory[item] ? "btn-warning" : "btn-light"
                 }`}

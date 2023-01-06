@@ -14,4 +14,4 @@ if (process.env.NODE_ENV != "development") {
   ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 }
 
-console.log(import.meta.env.VITE_REACT_APP_TEST)
+// console.log(import.meta.env.VITE_REACT_APP_TEST)
