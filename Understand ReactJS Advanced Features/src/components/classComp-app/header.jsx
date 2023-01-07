@@ -1,18 +1,20 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 
-import {newsCategory} from "../../news/index";
+import { newsCategory } from "../../news/index";
 
 class Header extends Component {
   state = {
     searchTerm: "",
   };
 
+
   handleChange = (e) => {
     this.setState({ searchTerm: e.target.value });
   };
   handleKeyPress = (e) => {
-    if(e.key === 'Enter') this.props.search(this.state.searchTerm)
+    if (e.key === "Enter") this.props.search(this.state.searchTerm);
   };
+
 
   render() {
     const { category, changeCategory } = this.props;
@@ -23,6 +25,7 @@ class Header extends Component {
           Block Buster Headline
         </h1>
         <input
+          ref={this.props.innerRef}
           type="text"
           className="form-control"
           placeholder="Type Anything & Press Enter To Search.."
@@ -49,17 +52,6 @@ class Header extends Component {
   }
 }
 
-export default Header;
-
-// if (category === newsCategory[item]) {
-//     return (
-//       <button className="btn btn-sm btn-warning mr-2 mb-2">
-//         {`#${newsCategory[item]}`}
-//       </button>
-//     );
-//   }
-//   return (
-//     <button className="btn btn-sm btn-light mr-2 mb-2">
-//       {`#${newsCategory[item]}`}
-//     </button>
-//   );
+export default React.forwardRef((props, ref) => (
+  <Header {...props} innerRef={ref} />
+));

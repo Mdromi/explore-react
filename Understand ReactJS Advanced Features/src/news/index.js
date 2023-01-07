@@ -60,7 +60,6 @@ export default class News {
         throw new Error("Invalid Page Number");
     }
     this._currentPage = pageNumber;
-    console.log('pageNumber', this._currentPage);
 
     return this.getNews();
   }

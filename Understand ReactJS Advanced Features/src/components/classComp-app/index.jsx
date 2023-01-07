@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import News, { newsCategory } from "../../news/index";
 
 import AboutResult from "./about-result";
@@ -15,6 +15,9 @@ class ClassCompApp extends Component {
     isLoading: true,
   };
 
+  searchRef = createRef();
+  itemRefList = [];
+
   componentDidMount() {
     news
       .getNews()
@@ -26,6 +29,10 @@ class ClassCompApp extends Component {
         this.setState({ isLoading: false });
         alert("Something want wrong");
       });
+
+    this.searchRef.current.focus();
+
+    console.log("itemRefList = ", this.itemRefList);
   }
 
   next = () => {
@@ -63,7 +70,6 @@ class ClassCompApp extends Component {
         currentPage: Number.parseInt(value),
       },
     });
-    console.log("currentPage,currentPage", this.state.data.currentPage);
   };
 
   goToPage = () => {
@@ -80,7 +86,7 @@ class ClassCompApp extends Component {
       });
   };
 
-  changeCategory = category => {
+  changeCategory = (category) => {
     this.setState({ isLoading: true });
     news
       .changeCategory(category)
@@ -92,9 +98,9 @@ class ClassCompApp extends Component {
         alert("Something want wrong update category");
         this.setState({ isLoading: false });
       });
-  }
+  };
 
-  search = searchTerm => {
+  search = (searchTerm) => {
     this.setState({ isLoading: true });
     news
       .search(searchTerm)
@@ -106,6 +112,10 @@ class ClassCompApp extends Component {
         alert("Something want wrong search category");
         this.setState({ isLoading: false });
       });
+  };
+
+  goToTop(scrollRef) {
+    return window.scroll(0, scrollRef);
   }
 
   render() {
@@ -122,17 +132,23 @@ class ClassCompApp extends Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 offset-md-3">
-            <Header category={category} changeCategory={this.changeCategory} search={this.search} />
+            <Header
+              category={category}
+              changeCategory={this.changeCategory}
+              search={this.search}
+              ref={this.searchRef}
+            />
             <AboutResult
               totalResults={totalResults}
               currentPage={currentPage}
               totalPage={totalPage}
+              goToTop={this.goToTop}
             />
             {this.state.isLoading ? (
               <Loading />
             ) : (
               <div>
-                <NewsList news={article} />
+                <NewsList news={article} ref={this.itemRefList} />
                 <Pagination
                   next={this.next}
                   prev={this.prev}
@@ -143,6 +159,12 @@ class ClassCompApp extends Component {
                   handlePageChange={this.handlePageChange}
                   goToPage={this.goToPage}
                 />
+                <button
+                  onClick={() => this.goToTop()}
+                  className="btn btn-secondary my-"
+                >
+                  Go To Top
+                </button>
               </div>
             )}
           </div>

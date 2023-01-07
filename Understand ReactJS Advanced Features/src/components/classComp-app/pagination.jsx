@@ -15,7 +15,6 @@ class Pagination extends Component {
       handlePageChange,
       goToPage
     } = this.props;
-    console.log('currentPage', currentPage);
     return (
       <div className="d-flex my-5 align-item-center">
         <button
