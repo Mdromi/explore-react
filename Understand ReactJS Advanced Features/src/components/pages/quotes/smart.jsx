@@ -26,7 +26,7 @@ class Smart extends Component {
       this.setState({
         msg: message[randomIndex],
       });
-    }, 5 * 1000);
+    }, 1.5 * 1000);
   }
 
   render() {
